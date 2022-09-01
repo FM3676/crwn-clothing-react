@@ -19,7 +19,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const fiirebaseApp = initializeApp(firebaseConfig);
+const firebaseApp = initializeApp(firebaseConfig);
 
 // Initialize a provider to use Google authentication
 const provider = new GoogleAuthProvider();
@@ -35,15 +35,31 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 // But, we won't ever need more than one authentication, the authentication for Firebase or for Google, it should be same one for every application.
 // Once you authenticate for this web as a whole, it should be held onto for the duration of the lifecycle of this application.
 
+// ----------------------------------------------------------------
 export const db = getFirestore();
 
 export const createUserDocumentFromAuth = async (userAuth) => {
   // Check whether there is already a document for this user. True, give it back to me || False, create one for mee
   const userDocRef = doc(db, "users", userAuth.uid);
-  console.log(userDocRef);
+//   console.log(userDocRef);
 
   const userSnapshot = await getDoc(userDocRef);
-  console.log(userSnapshot);
-  console.log(userSnapshot.exists());
+//   console.log(userSnapshot);
+//   console.log(userSnapshot.exists());
+
+  // If user data doesn't exist
+  // Create / Set the document with the data from userAuth in my collection.
+  if (!userSnapshot.exists()) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+    try {
+      await setDoc(userDocRef, { displayName, email, createdAt });
+    } catch (error) {
+      console.log("Error creating the user", error.message);
+    }
+  }
+
+  // If user data exists
+  // Return userDocRef
+  return userDocRef;
 };
-first;
