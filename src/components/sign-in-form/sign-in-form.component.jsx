@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "../../contexts/user.context";
 import {
-  createAuthUserWithEmailAndPassword,
+  // createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
   signInAuthUserWithEmailAndPassword,
   signInWithGooglePopup,
@@ -18,7 +19,7 @@ const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
 
-  console.log(formFields);
+  const { setCurrentUser } = useContext(UserContext);
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -26,6 +27,7 @@ const SignInForm = () => {
 
   const signInWithGoogle = async () => {
     const { user } = await signInWithGooglePopup();
+    setCurrentUser(user);
     await createUserDocumentFromAuth(user);
   };
 
@@ -33,11 +35,12 @@ const SignInForm = () => {
     e.preventDefault();
 
     try {
-      const response = await signInAuthUserWithEmailAndPassword(
+      const { user } = await signInAuthUserWithEmailAndPassword(
         email,
         password
       );
-      console.log(response);
+      setCurrentUser(user);
+      // console.log(user);
 
       resetFormFields();
     } catch (error) {
@@ -47,6 +50,7 @@ const SignInForm = () => {
           break;
         case "auth/user-not-found":
           alert("no user associated with this email");
+          break;
         default:
           console.log(error);
       }
@@ -81,7 +85,7 @@ const SignInForm = () => {
         />
         <div className="buttons-container">
           <Button type="submit">Sign In</Button>
-          <Button type="button"  onClick={signInWithGoogle} buttonType="google">
+          <Button type="button" onClick={signInWithGoogle} buttonType="google">
             Google sign in
           </Button>
         </div>
