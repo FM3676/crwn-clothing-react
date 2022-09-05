@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 // import { UserContext } from "../../contexts/user.context";
 import {
   // createAuthUserWithEmailAndPassword,
-  createUserDocumentFromAuth,
+  // createUserDocumentFromAuth,
   signInAuthUserWithEmailAndPassword,
   signInWithGooglePopup,
 } from "../../utils/firebase/firebase.utils";
