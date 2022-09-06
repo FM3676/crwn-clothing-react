@@ -3,6 +3,7 @@ import {
   createUserDocumentFromAuth,
   onAuthStateChangedListener,
 } from "../utils/firebase/firebase.utils";
+import { createAction } from "../utils/reducer/reducer.utils";
 
 // See the context as being two parts, one is the actual storge thing itself, the literal context.
 
@@ -22,7 +23,7 @@ const userReducer = (state, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case "SET_CURRENT_USER":
+    case USER_ACTION_TYPES.SET_CURRENT_USER:
       return {
         currentUser: payload,
       };
@@ -43,7 +44,7 @@ export const UserProvider = ({ children }) => {
   console.log(currentUser);
 
   const setCurrentUser = (user) => {
-    dispatch({ type: USER_ACTION_TYPES.SET_CURRENT_USER, payload: user });
+    dispatch(createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user));
   };
 
   const value = { currentUser, setCurrentUser };
