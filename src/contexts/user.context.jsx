@@ -49,6 +49,7 @@ export const UserProvider = ({ children }) => {
 
   const value = { currentUser, setCurrentUser };
 
+  /* 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
       // return null or user object
@@ -57,7 +58,8 @@ export const UserProvider = ({ children }) => {
       setCurrentUser(user);
     });
     return unsubscribe;
-  }, []);
+  }, []); 
+  */
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
