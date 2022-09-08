@@ -5,7 +5,11 @@ import Authentication from "./routes/authentication/authentication.component";
 import Shop from "./routes/shop/shop.component";
 import Checkout from "./routes/checkout/checkout.component";
 import { useEffect } from "react";
-import { createUserDocumentFromAuth, onAuthStateChangedListener } from "./utils/firebase/firebase.utils";
+import {
+  createUserDocumentFromAuth,
+  getCurrentUser,
+  onAuthStateChangedListener,
+} from "./utils/firebase/firebase.utils";
 import { setCurrentUser } from "./store/user/user.action";
 import { useDispatch } from "react-redux";
 
@@ -13,13 +17,14 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChangedListener((user) => {
+    getCurrentUser().then((user) => console.log(user));
+    /*     const unsubscribe = onAuthStateChangedListener((user) => {
       // return null or user object
       if (user) createUserDocumentFromAuth(user);
       // console.log(user);
       dispatch(setCurrentUser(user));// This dispatch dispatches actions to thr root reducer, which is turn passes the action to every single reducer function.
     });
-    return unsubscribe;
+    return unsubscribe; */
   }, []);
 
   return (
