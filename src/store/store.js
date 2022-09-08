@@ -9,7 +9,7 @@ import { rootReducer } from "./root-reducer";
 const persistConfig = {
   key: "root",
   storage,
-  backlist: ["user"],
+  whitelist: ["cart"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -17,9 +17,10 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 // root-reducer
 
 // Create middleware(run before an action hits the reducer), Whnerever dispatch an action before that action hits the reducers, it hits the middleware first.
-const middleWares = [process.env.NODE_ENV !== "production" && logger, thunk].filter(
-  Boolean
-);
+const middleWares = [
+  process.env.NODE_ENV !== "production" && logger,
+  thunk,
+].filter(Boolean);
 
 // Enable Redux DevTools
 const composedEnhancer =
