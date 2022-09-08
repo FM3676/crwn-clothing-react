@@ -1,5 +1,8 @@
 import { compose, createStore, applyMiddleware } from "redux";
 import logger from "redux-logger";
+import persistReducer from "redux-persist/es/persistReducer";
+import persistStore from "redux-persist/es/persistStore";
+import storage from "redux-persist/lib/storage";
 import { rootReducer } from "./root-reducer";
 
 // Create your own middleware Fun
@@ -21,6 +24,14 @@ const loggerMiddleware = (store) => (next) => (action) => {
   console.log("next state: ", store.getState());
 };
 
+const persistConfig = {
+  key: "root",
+  storage,
+  backlist: ["user"],
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 // root-reducer
 
 // Create middleware(run before an action hits the reducer), Whnerever dispatch an action before that action hits the reducers, it hits the middleware first.
@@ -33,9 +44,11 @@ const composedEnhancers = compose(applyMiddleware(...middleWares));
 
 // pass enhancers as thrid argument, we can have different types of enhancers, middleWare is primary one.
 export const store = createStore(
-  rootReducer, // necessary
+  persistedReducer, // necessary argument
   undefined, // add any additional default states
   composedEnhancers
 );
 
 // We pass them as this compose enhancers thrid argument, it enhances our store, the middleware enhance our store
+
+export const persistor = persistStore(store);
