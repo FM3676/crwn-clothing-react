@@ -3,6 +3,7 @@ import logger from "redux-logger";
 import persistReducer from "redux-persist/es/persistReducer";
 import persistStore from "redux-persist/es/persistStore";
 import storage from "redux-persist/lib/storage";
+import thunk from "redux-thunk";
 import { rootReducer } from "./root-reducer";
 
 const persistConfig = {
@@ -16,7 +17,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 // root-reducer
 
 // Create middleware(run before an action hits the reducer), Whnerever dispatch an action before that action hits the reducers, it hits the middleware first.
-const middleWares = [process.env.NODE_ENV !== "production" && logger].filter(
+const middleWares = [process.env.NODE_ENV !== "production" && logger, thunk].filter(
   Boolean
 );
 
