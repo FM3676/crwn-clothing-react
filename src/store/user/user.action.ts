@@ -54,7 +54,10 @@ export type SignOutStart = Action<USER_ACTION_TYPES.SIGN_OUT_START>;
 
 export type SignOutSuccess = Action<USER_ACTION_TYPES.SIGN_OUT_SUCCESS>;
 
-export type SignOutFailed = Action<USER_ACTION_TYPES.SIGN_OUT_FAILED>;
+export type SignOutFailed = ActionWithPayload<
+  USER_ACTION_TYPES.SIGN_OUT_FAILED,
+  Error
+>;
 
 /* --------------------------------------------------------------------------------- */
 
@@ -113,5 +116,6 @@ export const signOutSuccess = withMatcher(
   (): SignOutSuccess => createAction(USER_ACTION_TYPES.SIGN_OUT_SUCCESS)
 );
 export const signOutFailed = withMatcher(
-  (): SignOutFailed => createAction(USER_ACTION_TYPES.SIGN_OUT_FAILED)
+  (error: Error): SignOutFailed =>
+    createAction(USER_ACTION_TYPES.SIGN_OUT_FAILED, error)
 );
