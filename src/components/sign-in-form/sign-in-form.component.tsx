@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   emailsignInStart,
@@ -38,7 +38,7 @@ const SignInForm = () => {
     // await createUserDocumentFromAuth(user);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       dispatch(emailsignInStart(email, password));
@@ -50,7 +50,7 @@ const SignInForm = () => {
       // console.log(user);
 
       resetFormFields();
-    } catch (error) {
+    } catch (error:any) {
       switch (error.code) {
         case "auth/wrong-password":
           alert("incorrect password for email");
@@ -64,7 +64,7 @@ const SignInForm = () => {
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormFields({ ...formFields, [name]: value });
   };
