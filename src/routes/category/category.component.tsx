@@ -10,11 +10,17 @@ import {
 } from "../../store/categories/category.selector";
 import "./category.styles.scss";
 
+type CategoryRouteParams = {
+  category: string;
+};
+
 const Category = () => {
   // const { categoriesMap } = useContext(CategoriesContext);
   const categoriesMap = useSelector(selectCategoriesMap);
   const isLoading = useSelector(selectCategoriesIsLoading);
-  const { category } = useParams();
+  const { category } = useParams<
+    keyof CategoryRouteParams
+  >() as CategoryRouteParams;
   const [products, setProducts] = useState(categoriesMap[category]);
 
   useEffect(() => {
